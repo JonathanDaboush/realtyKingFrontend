@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class Region extends Component {
   emptyItem={
-    value:"",region:""
+    value:"",country:""
   }
        constructor(props) {
               super(props);
@@ -11,19 +11,23 @@ class Region extends Component {
               this.state = { region: this.emptyItem };
             }
             async componentDidMount() {
+              let ofObject={};
               if(this.props.id){
                 let path='/region/'+this.props.id;
                 await axios.get(
                   'http://localhost:8080'+path)
                      .then(res => {
-                        this.setState({region: res});
+                      ofObject= res;
                    }).catch(
                    function (error) {
-                    let emptyItem={
+                    let emptyItem="";
+                    emptyItem={
                             value:"",country:""
-                          }
-                    this.setState({region:emptyItem});
+                          };
+                          ofObject=emptyItem;
+                    
                   });}
+                  this.setState({region:ofObject});
             } 
     render()
     {

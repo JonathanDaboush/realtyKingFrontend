@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import OutsideClickHandler from 'react-outside-click-handler';
+import Autocomplete from '../../Util/autocomplete';
 class Region extends Component {
    static propTypes = {
       suggestions: PropTypes.instanceOf(Array)
@@ -92,11 +93,11 @@ async onClickAway(){
       
        async componentDidMount() {
         let path='/region';
+        let ofObject
         if(this.props.id!==-1){
         await axios.get(
           'http://localhost:8080'+path+"/"+this.props.id)
-             .then(res => {
-                this.setState({region: res.data});
+             .then(res => { ofObject=res.data;
            }).catch(
            function (error) {
             console.log(error);
@@ -105,24 +106,25 @@ async onClickAway(){
             let emptyItem={
               value:"",country:this.props.country
             }
-            await this.setState({region:emptyItem});
-          }
+            ofObject=emptyItem;
+           
+          } await this.setState({region:ofObject});
           console.log(this.state.region);
       } 
       //upon entering the input button edit or save will be completed.
        async handleSubmit(event) {
          event.preventDefault();
          let path='/region';
+         let ofError="";
          axios.post(
           'http://localhost:8080'+path,this.state.region)
-             .then(res => {
-                this.setState({regionError: res});
+             .then(res => { ofError=res;
            }).catch(
            function (error) {
             let emptyItem="";
             window.location.reload(false);
-            this.setState({regionError:emptyItem});
-          });
+             ofError=emptyItem;
+          });this.setState({regionError:ofError});
      }
     render()
     {
@@ -135,14 +137,7 @@ async onClickAway(){
                                        <form  onSubmit={this.handleSubmit} >
                                        <div><b>previous value:{this.state.region.value || ''}</b></div>
                                           <label>region:</label>
-                                          <input type="text" id="fieldName" className="fieldName" onChange={this.onChange} value={this.state.currentValue}/>
-                                          <OutsideClickHandler
-                                              onOutsideClick={() => {
-                                              this.onClickAway();
-                                              }}
-                                            >
-                                              <div  dangerouslySetInnerHTML={{ __html: this.state.tags }}></div>
-                                          </OutsideClickHandler>
+                                          <Autocomplete list={this.state.filterList} onChangeValue={this.onChange}/>
                                           <div>{this.state.regionError}</div>
                                           <input type="submit" value="Submit"></input>
                                        </form>

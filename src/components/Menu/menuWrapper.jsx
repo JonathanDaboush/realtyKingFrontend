@@ -1,4 +1,4 @@
-import React, { useState }from "react";
+import React, { useState,memo }from "react";
 
 import Area from "../ReadFolder/geographicMainComponents/areaMainComponent.jsx";
 import City from "../ReadFolder/geographicMainComponents/cityMainComponent.jsx";
@@ -25,6 +25,14 @@ export default function MenuWrapper({type,id,isEdit}){
                      </div>
                      );
        }
+       if(type==='region'){
+         return(  
+                  <div key={"frommenulist"+id}>
+                     <div className={edit ? 'd-block' :'d-none'}><RegionW id={id}/><button onClick={changer}>read</button></div>
+                     <div className={edit ? 'd-none' : 'd-block'}><Region id={id} /><button onClick={changer}>edit</button></div>
+                  </div>
+                  );
+    }
        
     
 }

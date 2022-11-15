@@ -157,10 +157,10 @@ async componentDidMount(){
   
     return (
         <form onSubmit={this.handleSearch}>
-        <div>search By Location</div>
-        <Autocomplete list={this.state.filterList} onChangeValue={this.onChange}/>
-        <input type="submit" value="search Within Location"></input>
-      </form>
+          <div>search By Location</div>
+          <Autocomplete list={this.state.filterList} onChangeValue={this.onChange}/>
+          <input type="submit" value="search Within Location"></input>
+        </form>
     );
   }
 }

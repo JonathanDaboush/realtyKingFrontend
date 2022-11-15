@@ -13,6 +13,7 @@ import  {MenuList}  from "./MenuList.jsx";
 import GeographicLocationSearch from "./geographicSearchBar.jsx";
 import  NewObject  from "./newObject.jsx";
 import { ThemeProvider } from "react-bootstrap";
+
 function Menu(props){
    
     
@@ -20,31 +21,31 @@ function Menu(props){
     let [supra,setSupra]=useState([]);
     let [options,setOptions]=useState([]);
     let [searchBar,setSearchBar]=useState([{locations:["country","region","area","city","neighborhood"]}]);
-    let [category,setCategory]=useState('');
+    let [category,setCategory]=useState('country');
     let [value,setValue]=useState('');
   
     
-    let handleSearchBar=(value)=>{
-
-        if(value.category==='country'){
+    let handleSearchBar=(e)=>{
+        
+        if(e.category==='country'){
             setCategory((category)=>{let newValue='region';console.log(newValue);return newValue;});
          
          }
-          setOptions((options)=>{let newValue=value.kids;console.log(newValue);return newValue;}); 
-         setSupra((supra)=>{let newValue=value;console.log(newValue);return newValue;});
-          getChildren(value.category+"/getById/"+value.id);
+          setOptions((options)=>{let newValue=e.kids;console.log(newValue);return newValue;}); 
+         setSupra((supra)=>{let newValue=e;console.log(newValue);return newValue;});
+         
    
 
         } 
         
-        let handleNavBar=(value)=>{
-                setCategory((category)=>{let newValue=value;console.log(newValue);return newValue;});
+        let handleNavBar=(e)=>{
+                setCategory((category)=>{let newValue=e;console.log(newValue);return newValue;});
                setSupra((supra)=>{let newValue=[];console.log(newValue);return newValue;});
                 getChildren(category);
              
         }
         const getChildren=(value)=>{
-           
+           let ofList=[];
             let res=axios.get('http://localhost:8080/'+value)
                 .then
                 (  
@@ -52,10 +53,11 @@ function Menu(props){
                     function(res){
                         let list=res.data;
                     if(list.length===0){
+                        console.log("");
                     }
                     else{
                             if(list[0]!==undefined){
-                                setOptions(options=>{let newValue=list;console.log(newValue);return newValue;});
+                                ofList=list;setOptions(options=>{let newValue=ofList;console.log(newValue);return newValue;});
                             }
                         
                         }
@@ -69,11 +71,7 @@ function Menu(props){
             
         }
         
-            useEffect(() => { 
-                if(category===''){
-                    category='country';
-                }
-                        }
+            useEffect(() => {}
                 , [value]);
  
     return(
@@ -86,6 +84,7 @@ function Menu(props){
                <GeographicLocationSearch handleSearchBar={handleSearchBar}/>
             
                 <NewObject {...supra}/>
+                
            
                  <MenuList Items={options} kind={category}/>
             </div>
