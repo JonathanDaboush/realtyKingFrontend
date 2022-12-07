@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
-import AccountPrivilege from '../../Objects/accountComponents/accountPrivilageComponent';
+import AccountPrivilege from '../../Objects/accountComponents/accountPrivilageComponent.js';
 class accountPrivilageMainComponent extends Component {
     constructor(props) {
         super(props);

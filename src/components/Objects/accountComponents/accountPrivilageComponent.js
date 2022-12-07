@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-
-import Autocomplete from "./../MiscellaneousServices/Autocomplete";
 class AccountPrivilege  extends Component  {
    
 

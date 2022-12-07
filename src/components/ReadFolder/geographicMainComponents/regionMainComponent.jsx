@@ -13,28 +13,23 @@ class Region extends Component {
             async componentDidMount() {
               let ofObject={};
               if(this.props.id){
-                let path='/region/'+this.props.id;
+                let path='/region/getById/'+this.props.id;
                 await axios.get(
                   'http://localhost:8080'+path)
                      .then(res => {
-                      ofObject= res;
+                      ofObject= res.data;
                    }).catch(
                    function (error) {
-                    let emptyItem="";
-                    emptyItem={
-                            value:"",country:""
-                          };
-                          ofObject=emptyItem;
                     
                   });}
-                  this.setState({region:ofObject});
+                 await this.setState({region:ofObject});
             } 
     render()
     {
            
 
        
-
+      if(this.state.region.value===''||this.state.region.value===undefined){return(<div></div>)}
 
            return( <div>
 

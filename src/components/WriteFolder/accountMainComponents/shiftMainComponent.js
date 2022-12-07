@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 class ShiftMainComponent extends Component {
   
-    Constructor(props){  
+    constructor(props){  
         super(props); 
         this.state = {
             dateOfShiftError:"",

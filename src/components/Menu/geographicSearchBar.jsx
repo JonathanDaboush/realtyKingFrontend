@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from "react";
-
+import React, { Component, Fragment,useRef } from "react";
+import JSOG from 'jsog';
 import Autocomplete from "../Util/autocomplete.jsx";
 import axios from "axios";
 import { breakWord } from "./breakWord.js";
+import { decrypt } from "../Util/jsogRetreival.js";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -46,6 +47,15 @@ class GeographicLocationSearch extends Component {
       }
 
       this.setState({filterList:newList});
+      let item={};
+      oldList.map((e)=>{
+          
+        if(e.name===this.state.currentValue){
+          item=e;
+        }
+
+        });
+      this.props.onChangeValue(item);
     }
 //upon input change.
 async onChange(childData){
@@ -73,79 +83,99 @@ async handleSearch(){
 //to generate list
 async componentDidMount(){
   let keyValuePair=[];
-  axios.get(
+  await axios.get(
     'http://localhost:8080/'+"country")
        .then(res => {
-        Object.values(res).map((item)=>{
-          for(let i=0;i<item.length;i++){
+        let list=decrypt(res.data);
+        list.map((item,index)=>{
+          
 
-            keyValuePair.push({'name':breakWord(item[i],'country'),'category':'country',id:item[i].id,'kids':item[i].regions});
+          if(item.id){ keyValuePair.push({'name':breakWord(item,'country'),'category':'country',id:item.id,'kids':item.regions});}
+          else{
+            let deRef=useRef(item);
+            keyValuePair.push({'name':breakWord(deRef,'country'),'category':'country',deRef:item.id,'kids':deRef.regions});
           }
+          
          
         })
           
      }).catch(
       
-     function (error) {console.log(error)
+     function (error) {console.log(error);
     }
     );
 
-    axios.get(
+    await axios.get(
       'http://localhost:8080/'+"region")
-      .then(res => {
-        Object.values(res).map((item)=>{
-          for(let i=0;i<item.length;i++){
-            keyValuePair.push({'name':breakWord(item[i],'region'),'category':'region',id:item[i].id});
+      .then(res => { 
+        let list=decrypt(res.data);
+        list.map((item,index)=>{
+          if(item.id){keyValuePair.push({'name':breakWord(item,'region'),'category':'region',id:item.id});}
+           else{
+            let deRef=useRef(item);
+            keyValuePair.push({'name':breakWord(deRef,'region'),'category':'region',id:deRef.id});
           }
          
         })
           
      }).catch(
-     function (error) {
+     function (error) {console.log(error);
     }
     );
 
-      axios.get(
+      await axios.get(
         'http://localhost:8080/'+"area")
         .then(res => {
-          Object.values(res).map((item)=>{
-            for(let i=0;i<item.length;i++){
-              this.keyValuePair.push({'name':breakWord(item[i],'area'),'category':'area',id:item[i].id});
+          let list=decrypt(res.data);
+        list.map((item,index)=>{
+            if(item.id){ keyValuePair.push({'name':breakWord(item,'area'),'category':'area',id:item.id});}
+            else{
+              let deRef=useRef(item);
+              keyValuePair.push({'name':breakWord(deRef,'area'),'category':'area',id:deRef.id});
             }
            
           })
             
        }).catch(
        function (error) {
+        console.log(error);
       }
       );
 
-      axios.get(
+      await axios.get(
         'http://localhost:8080/'+"city").then(res => {
-        Object.values(res).map((item)=>{
-          for(let i=0;i<item.length;i++){
-            this.keyValuePair.push({'name':breakWord(item[i],'city'),'category':'city',id:item[i].id});
+          let list=decrypt(res.data);
+          list.map((item,index)=>{
+        
+          if(item.id){keyValuePair.push({'name':breakWord(item,'city'),'category':'city',id:item.id});}
+          else{
+            let deRef=useRef(item);
+            keyValuePair.push({'name':breakWord(deRef,'city'),'category':'city',id:deRef.id});
           }
          
         })
           
      }).catch(
-     function (error) {
+     function (error) {console.log(error);
     }
     );
 
-    axios.get(
+    await axios.get(
       'http://localhost:8080/'+"neighborhood")
     .then(res => {
-      Object.values(res).map((item)=>{
-        for(let i=0;i<item.length;i++){
-          this.keyValuePair.push({'name':breakWord(item[i],'neighborhood'),'category':'neighborhood',id:item[i].id});
-        }
+      let list=decrypt(res.data);
+      list.map((item,index)=>{
+        if(item.id){
+          keyValuePair.push({'name':breakWord(item,'neighborhood'),'category':'neighborhood',id:item.id});}
+          else{
+            let deRef=useRef(item);
+            keyValuePair.push({'name':breakWord(deRef,'neighborhood'),'category':'neighborhood',id:deRef.id});
+          }
        
       })
         
    }).catch(
-   function (error) {
+   function (error) {console.log(error);
   }
   );
             await this.setState({list:keyValuePair});

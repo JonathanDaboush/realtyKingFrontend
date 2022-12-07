@@ -12,17 +12,13 @@ class City extends Component {
             }
             async componentDidMount() {
               if(this.props.id){
-                let path='/city/'+this.props.id;
+                let path='/city/getById/'+this.props.id;
                 await axios.get(
                   'http://localhost:8080'+path)
                      .then(res => {
-                        this.setState({city: res});
+                        this.setState({city: res.data});
                    }).catch(
                    function (error) {
-                    let emptyItem={
-                            value:"",region:""
-                          }
-                    this.setState({city:emptyItem});
                   });
             }} 
     render()
@@ -30,7 +26,7 @@ class City extends Component {
            
 
        
-
+if(this.state.city.value===''||this.state.city.value===undefined){return(<div></div>)}
 
            return( <div>
 

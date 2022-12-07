@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
-import GeneralUser from './../accountComponents/generalUserComponent';
-import Autocomplete from "./../MiscellaneousServices/Autocomplete";
+import GeneralUser from '../../Objects/accountComponents/generalUserComponent.js';
+import Autocomplete from "../../Util/autocomplete.jsx";
 class BonusMainComponent extends Component {
-  Constructor(props){  
+  constructor(props){  
     super(props); 
     this.state = {amountError:"",
     descriptioinError:"",

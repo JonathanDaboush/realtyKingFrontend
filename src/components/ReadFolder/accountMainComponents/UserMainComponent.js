@@ -1,21 +1,18 @@
-import React, {Component} from 'react';
+import React,{useState, useEffect} from "react";
 import $ from 'jquery';
 import GeneralUser from '../../Objects/accountComponents/generalUserComponent'; 
 import Autocomplete from "./Miscellaneousfeatures/Autocomplete";
-class UserMainComponent extends Component {
+function UserMainComponent(props) {
 
 
 
-    render()
-    {
-  
 
 
         return
               (
                  <GeneralUser user={this.props.user}/>
               );
-         }
+         
      
      
        

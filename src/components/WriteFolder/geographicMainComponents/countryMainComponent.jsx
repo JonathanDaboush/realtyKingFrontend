@@ -9,17 +9,12 @@ class Country extends Component {
     suggestions: PropTypes.instanceOf(Array)
   };
 
-  static defaultProps = {
-    suggestions: []
-  };
-  emptyItem={
-    value:"",country:""
-  }
+  
   constructor(props){  
     super(props);  
     this.state = {  
       countryError: '',list:[],
-      country:this.emptyItem,countryNames:[""],
+      country:{value:"",country:""},countryNames:[""],
       action:"",
       filterList:[],
       currentValue:"",
@@ -32,19 +27,40 @@ class Country extends Component {
       this.onChange = this.onChange.bind(this);
       this.onClick = this.onClick.bind(this);
       this.removeItem = this.removeItem.bind(this);
-      this.changeOptions=this.changeOptions.bind(this);}
+     
+      this.changeOptions=this.changeOptions.bind(this); 
+      this.changeValue = this.changeValue.bind(this);}
 //to load data upon generation.
+changeValue=(target,value)=>{
+  if(target==='list'){
+    this.setState({list:value}, function () {
+      console.log(this.state.list);
+    });
+  }
+  else{
+    this.setState({country:value}, function () {
+      console.log(this.state.country);
+    });
+  }
 
-      async componentDidMount() {
+console.log(this.state.country);
+}
+       componentDidMount() {
+
+
+
         let currentComponent = this;
+        let newCountry={};
         if(this.props.id){
           if(this.props.id!==-1)
           { 
             let path='/country';
-            await axios.get(
+            
+            axios.get(
                 'http://localhost:8080'+path+"/getById/"+this.props.id)
                 .then(res => {
-                    this.setState({country: res.data});
+                    this.changeValue('country',res.data);
+                 
               }).catch(
               function (error) {
                 let emptyItem={
@@ -53,15 +69,28 @@ class Country extends Component {
 
                       currentComponent.setState({country:emptyItem},()=>
                   {console.log(currentComponent.state.country);});
-              });}
-
-          
+              });
+            }
+              else{
+                let newRegion={};
+                axios.get(
+                  'http://localhost:8080'+"/country/dummy")
+                     .then(res => {
+                      this.changeValue('country',res.data);
+                     }
+                   ).then().catch(
+                   function (error) {
+            console.log(error);
+                  });
+                  
+              }
+             
             
             //set for autocomplete
           }   
             //get all countries
             let fromList=[];
-            await axios.get(
+           axios.get(
               'http://localhost:8080'+"/country")
                  .then(res => {
                    let newList=res.data;
@@ -74,7 +103,7 @@ class Country extends Component {
                function (error) {
         
               });
-              await this.setState({list:fromList})
+              this.changeValue('list',fromList);
               
       } 
       async changeOptions(){
@@ -154,7 +183,7 @@ async onChange(childData){
 
            return( <div>
 
-                                      <form onSubmit={this.handleSubmit} >
+                                      <form onSubmit={this.handleSubmit} > yoyoyo
                                       
                                       <div><b>previous value:{this.state.country.value || ''}</b></div>
                                           <label >country:</label>

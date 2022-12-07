@@ -4,16 +4,12 @@ var classNames = require('classnames');
 class EmployeeMainComponent extends Component {
     constructor(props)
     {
-        super(props);
+        super();
       this.state={
         panel1:true,
         panel2:true,
         panel3:true,
-        phoneNumberError:"",
-        dobError:"",
-        passwordError:"",
-        emailError:"",
-        genderError:"",
+      
         companyError:"",
         addressError:"",
         dateOfTerminationError:"",

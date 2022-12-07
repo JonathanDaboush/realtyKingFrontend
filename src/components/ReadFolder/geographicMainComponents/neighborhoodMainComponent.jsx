@@ -2,27 +2,24 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 class Neighborhood extends Component {
-       emptyItem={
-              value:"",city:""
-            }
+       
+             
+            
            constructor(props) {
               super(props);
               // Don't call this.setState() here!
-              this.state = { neighborhood: this.emptyItem };
+              this.state = { neighborhood: { value:"",city:""} };
             }
             async componentDidMount() {
               if(this.props.id){
-                let path='/neighborhood/'+this.props.id;
-                await axios.get(
-                  'http://localhost:8080'+path)
+                console.log('hi');
+                let path='http://localhost:8080/neighborhood/getById/'+this.props.id;
+                await axios.get(path)
                      .then(res => {
-                        this.setState({neighborhood: res});
+                        this.setState({neighborhood: res.data});
                    }).catch(
                    function (error) {
-                    let emptyItem={
-                            value:"",city:""
-                          }
-                    this.setState({neighborhood:emptyItem});
+                   
                   });
 
               }
@@ -32,7 +29,7 @@ class Neighborhood extends Component {
            
 
        
-
+if(this.state.neighborhood.value===""||this.state.neighborhood.value===undefined){return(<div></div>);}
 
            return( <div>
 
@@ -41,7 +38,7 @@ class Neighborhood extends Component {
                                        <div>region: {this.state.neighborhood.city.region.value}</div>
  
                                        <div> city: {this.state.neighborhood.city.value}</div>
-                                       <div> city: {this.state.neighborhood.value}</div>
+                                       <div> neighborhood: {this.state.neighborhood.value}</div>
                                 </div>);
 
 

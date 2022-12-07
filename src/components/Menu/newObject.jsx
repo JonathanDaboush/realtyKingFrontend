@@ -16,12 +16,16 @@ export default function NewObject(props){
         return(<div></div>);}
 
     else{
-        if(props.category==='country')
-        {category='region';}
+        category=props.category;
         if(category==='country'){ return(<CountryW id={-1} />);}
         else  if(category==='region'){ 
-            let newList={id:-1,country:{...props}};
-            return(<RegionW { ...newList} />);}
+            return(<RegionW id={-1} country={null} />);}
+            else  if(category==='area'){ 
+                return(<AreaW id={-1} region={null} />);}
+                else  if(category==='city'){ 
+                    return(<CityW id={-1} region={null} />);}
+                    else  if(category==='neighborhood'){ 
+                        return(<NeighborhoodW id={-1} city={null} />);}
     }
     
     

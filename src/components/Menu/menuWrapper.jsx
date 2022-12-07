@@ -25,7 +25,7 @@ export default function MenuWrapper({type,id,isEdit}){
                      </div>
                      );
        }
-       if(type==='region'){
+       else if(type==='region'){
          return(  
                   <div key={"frommenulist"+id}>
                      <div className={edit ? 'd-block' :'d-none'}><RegionW id={id}/><button onClick={changer}>read</button></div>
@@ -33,6 +33,29 @@ export default function MenuWrapper({type,id,isEdit}){
                   </div>
                   );
     }
-       
+    else if(type==='area'){
+            return(  
+                     <div key={"frommenulist"+id}>
+                        <div className={edit ? 'd-block' :'d-none'}><AreaW id={id}/><button onClick={changer}>read</button></div>
+                        <div className={edit ? 'd-none' : 'd-block'}><Area id={id} /><button onClick={changer}>edit</button></div>
+                     </div>
+                     );
+      }
+      else if(type==='city'){
+         return(  
+                  <div key={"frommenulist"+id}>
+                     <div className={edit ? 'd-block' :'d-none'}><CityW id={id}/><button onClick={changer}>read</button></div>
+                     <div className={edit ? 'd-none' : 'd-block'}><City id={id} /><button onClick={changer}>edit</button></div>
+                  </div>
+                  );
+      }
+      else if(type==='neighborhood'){
+         return(  
+                  <div key={"frommenulist"+id}>
+                     <div className={edit ? 'd-block' :'d-none'}><NeighborhoodW id={id}/><button onClick={changer}>read</button></div>
+                     <div className={edit ? 'd-none' : 'd-block'}><Neighborhood id={id} /><button onClick={changer}>edit</button></div>
+                  </div>
+                  );
+      }  
     
 }

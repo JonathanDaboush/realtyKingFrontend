@@ -11,17 +11,13 @@ class Area extends Component {
     this.state = { area: this.emptyItem };
   }
   async componentDidMount() {
-    let path='/area/'+this.props.id;
+    let path='/area/getById/'+this.props.id;
     await axios.get(
       'http://localhost:8080'+path)
          .then(res => {
-            this.setState({area: res});
+            this.setState({area: res.data});
        }).catch(
        function (error) {
-        let emptyItem={
-                value:"",country:""
-              }
-        this.setState({area:emptyItem});
       });
   } 
     render()
@@ -29,7 +25,7 @@ class Area extends Component {
            
 
        
-
+      if(this.state.area.value===''||this.state.area.value===undefined){return(<div></div>)}
 
            return( <div>
 

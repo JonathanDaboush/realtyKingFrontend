@@ -1,6 +1,6 @@
 import { object } from "airbnb-prop-types";
 import React,{useState,memo} from "react";
-import  MenuWrapper  from "./menuWrapper.jsx";
+import MenuWrapper from "./menuWrapper";
 export function MenuList(Items){
     let category=Items.kind;
     

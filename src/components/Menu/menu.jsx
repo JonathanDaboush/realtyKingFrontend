@@ -11,8 +11,11 @@ import { default as RegionW} from "../WriteFolder/geographicMainComponents/regio
 import { NavBar } from "../Navbar/navbar.jsx";
 import  {MenuList}  from "./MenuList.jsx";
 import GeographicLocationSearch from "./geographicSearchBar.jsx";
+
 import  NewObject  from "./newObject.jsx";
 import { ThemeProvider } from "react-bootstrap";
+import UserList from "../User/userList.jsx";
+import JSOG from 'jsog';
 
 function Menu(props){
    
@@ -23,8 +26,14 @@ function Menu(props){
     let [searchBar,setSearchBar]=useState([{locations:["country","region","area","city","neighborhood"]}]);
     let [category,setCategory]=useState('country');
     let [value,setValue]=useState('');
+  let [childList,setChildList]=useState([]);
+  let [childType,setChildType]=useState('');
   
-    
+  let onChangeSearchValue=(item)=>{
+    if(!Object.keys(item).length){return;}
+    setChildList((childList)=>{let newValue=item.kids;console.log(newValue);return newValue;});
+    setChildType((childType)=>{let newValue=item.category;console.log(newValue);return newValue;});
+  }
     let handleSearchBar=(e)=>{
         
         if(e.category==='country'){
@@ -40,24 +49,30 @@ function Menu(props){
         
         let handleNavBar=(e)=>{
                 setCategory((category)=>{let newValue=e;console.log(newValue);return newValue;});
-               setSupra((supra)=>{let newValue=[];console.log(newValue);return newValue;});
-                getChildren(category);
+               setSupra((supra)=>{let newValue={category:e};console.log(newValue);return newValue;});
+               console.log(supra);
+                getChildren(e);
              
         }
-        const getChildren=(value)=>{
-           let ofList=[];
-            let res=axios.get('http://localhost:8080/'+value)
+        let getChildren=async(value)=>{
+           
+            let x=await axios.get('http://localhost:8080/'+value)
                 .then
                 (  
                     
-                    function(res){
-                        let list=res.data;
-                    if(list.length===0){
-                        console.log("");
+                    (res)=>{
+                        let newList=res.data;
+                        let newObject={};
+                        let target="";
+                       target = JSOG.stringify(res.data);
+                        newObject= JSOG.parse(target);
+                        newList=newObject;
+                    if(newList.length===0){
+                        setOptions(options=>{let newValue=[];console.log(newValue);return newValue;});
                     }
                     else{
-                            if(list[0]!==undefined){
-                                ofList=list;setOptions(options=>{let newValue=ofList;console.log(newValue);return newValue;});
+                            if(newList[0]!==undefined){
+                                setOptions(options=>{let newValue=newObject;console.log(newValue);return newValue;});
                             }
                         
                         }
@@ -65,14 +80,14 @@ function Menu(props){
                 .catch(function (error) {
                     console.log(error);
                 });
-                
-
-                
+            
             
         }
         
-            useEffect(() => {}
-                , [value]);
+            useEffect(() => {
+                setSupra((e)=>{let newValue={category:'country'};console.log(category);return newValue;});
+            }
+                , []);
  
     return(
         <div>
@@ -81,14 +96,15 @@ function Menu(props){
             </div>
             <div>
             { /*this is the call */}
-               <GeographicLocationSearch handleSearchBar={handleSearchBar}/>
-            
+               <GeographicLocationSearch handleSearchBar={handleSearchBar} onChangeValue={onChangeSearchValue} />
+               <MenuList Items={childList} kind={childType}/>
                 <NewObject {...supra}/>
-                
            
                  <MenuList Items={options} kind={category}/>
             </div>
-               
+               <div>
+                <UserList />
+               </div>
            
         </div>
         
