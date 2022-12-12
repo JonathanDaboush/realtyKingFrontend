@@ -14,7 +14,7 @@ import GeographicLocationSearch from "./geographicSearchBar.jsx";
 
 import  NewObject  from "./newObject.jsx";
 import { ThemeProvider } from "react-bootstrap";
-import UserList from "../User/userList.jsx";
+
 import JSOG from 'jsog';
 
 function Menu(props){
@@ -103,7 +103,6 @@ function Menu(props){
                  <MenuList Items={options} kind={category}/>
             </div>
                <div>
-                <UserList />
                </div>
            
         </div>

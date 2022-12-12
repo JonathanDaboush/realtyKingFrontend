@@ -187,7 +187,7 @@ onChangeRegion(event){
      this.setState({area:newArea});
 
     await axios.post(
-     'http://localhost:8080/area', { id: newArea.region.id ,name:newArea.value})
+     'http://localhost:8080/area', { id: newArea.region.id ,value:newArea.value})
         .then(res => {
            this.setState({areaError: res.data});this.setState({isLoading:true});
       }).catch(

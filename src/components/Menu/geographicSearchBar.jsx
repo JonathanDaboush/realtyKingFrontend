@@ -3,7 +3,7 @@ import JSOG from 'jsog';
 import Autocomplete from "../Util/autocomplete.jsx";
 import axios from "axios";
 import { breakWord } from "./breakWord.js";
-import { decrypt } from "../Util/jsogRetreival.js";
+import decrypt  from "../Util/jsogRetreival.js";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 import OutsideClickHandler from 'react-outside-click-handler';

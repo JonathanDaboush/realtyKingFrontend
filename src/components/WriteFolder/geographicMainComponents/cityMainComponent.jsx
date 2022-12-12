@@ -183,13 +183,14 @@ onChangeRegion(event){
           newcity.value=this.state.currentValue;
           this.setState({city:newcity});
          await axios.post(
-          'http://localhost:8080/city',this.state.city)
+          'http://localhost:8080/city',{ id: newcity.region.id ,value:newcity.value})
              .then(res => {
                 this.setState({cityError: res.data});
            }).catch(
            function (error) {
             console.log(error);
           });
+          await this.setState(this.state);
      }
     render()
     {

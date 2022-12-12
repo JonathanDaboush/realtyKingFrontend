@@ -182,7 +182,7 @@ onChangeCity(event){
           this.setState({neighborhood:newNeighborhood});
 
          await axios.post(
-          'http://localhost:8080/neighborhood', { id: newNeighborhood.city.id ,name:newNeighborhood.value})
+          'http://localhost:8080/neighborhood', { id: newNeighborhood.city.id ,value:newNeighborhood.value})
              .then(res => {
                 this.setState({neighborhoodError: res.data});this.setState({isLoading:true});
            }).catch(
